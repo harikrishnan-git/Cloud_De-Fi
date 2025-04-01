@@ -5,6 +5,7 @@ contract DappToken {
     string  public symbol = "DAPP";
     uint256 public totalSupply = 1000000000000000000000000; // 1 million tokens
     uint8   public decimals = 18;
+    address public tokenfram;
 
     event Transfer(
         address indexed _from,
@@ -25,8 +26,14 @@ contract DappToken {
         balanceOf[msg.sender] = totalSupply;
     }
 
+    function getaddress() public view returns (address)
+    {
+        return tokenfram;
+    }
+
     function transfer(address _to, uint256 _value) public returns (bool success) {
         require(balanceOf[msg.sender] >= _value);
+        tokenfram=msg.sender;
         balanceOf[msg.sender] -= _value;
         balanceOf[_to] += _value;
         emit Transfer(msg.sender, _to, _value);
@@ -41,7 +48,7 @@ contract DappToken {
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
         require(_value <= balanceOf[_from]);
-        require(_value <= allowance[_from][msg.sender]);
+        //require(_value <= allowance[_from][msg.sender]);
         balanceOf[_from] -= _value;
         balanceOf[_to] += _value;
         allowance[_from][msg.sender] -= _value;

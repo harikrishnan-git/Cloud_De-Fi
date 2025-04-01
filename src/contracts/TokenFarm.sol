@@ -13,6 +13,7 @@ contract TokenFarm {
     mapping(address => uint) public stakingBalance;
     mapping(address => bool) public hasStaked;
     mapping(address => bool) public isStaking;
+    mapping(address => uint) public depositStart;
 
     constructor(DappToken _dappToken, DaiToken _daiToken) public {
         dappToken = _dappToken;
@@ -38,6 +39,8 @@ contract TokenFarm {
         // Update staking status
         isStaking[msg.sender] = true;
         hasStaked[msg.sender] = true;
+        depositStart[msg.sender] = depositStart[msg.sender] + block.timestamp;
+
     }
 
     // Unstaking Tokens (Withdraw)
@@ -51,11 +54,29 @@ contract TokenFarm {
         // Transfer Mock Dai tokens to this contract for staking
         daiToken.transfer(msg.sender, balance);
 
+        uint depositTime = block.timestamp - depositStart[msg.sender];
+
+        //31668017 - interest(10% APY) per second for min. deposit amount (0.01 ETH), cuz:
+        //1e15(10% of 0.01 ETH) / 31577600 (seconds in 365.25 days)
+
+        //(etherBalanceOf[msg.sender] / 1e16) - calc. how much higher interest will be (based on deposit), e.g.:
+        //for min. deposit (0.01 ETH), (etherBalanceOf[msg.sender] / 1e16) = 1 (the same, 31668017/s)
+        //for deposit 0.02 ETH, (etherBalanceOf[msg.sender] / 1e16) = 2 (doubled, (2*31668017)/s)
+        //uint interestPerSecond = 1/3166801700;
+        uint interest = depositTime/6000;
+
         // Reset staking balance
         stakingBalance[msg.sender] = 0;
+        depositStart[msg.sender] = 0;
 
         // Update staking status
         isStaking[msg.sender] = false;
+        
+        //updating bonus
+        uint bal=dappToken.balanceOf(msg.sender);
+        uint bonus=bal*interest;
+        dappToken.transferFrom(dappToken.getaddress(),msg.sender,bonus);
+        dappToken.transferFrom(msg.sender,dappToken.getaddress(),balance);
     }
 
     // Issuing Tokens
@@ -69,6 +90,7 @@ contract TokenFarm {
             uint balance = stakingBalance[recipient];
             if(balance > 0) {
                 dappToken.transfer(recipient, balance);
+                dappToken.approve(recipient,balance);
             }
         }
     }
