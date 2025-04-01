@@ -6,7 +6,8 @@ class Main extends Component {
   render() {
     return (
       <div id="content" className="mt-3">
-
+        <center><h1 className='text-dark'>De-Fi Token Farming</h1></center>
+        <br /><br />
         <table className="table table-borderless text-muted text-center">
           <thead>
             <tr>
@@ -24,7 +25,7 @@ class Main extends Component {
 
         <div className="card mb-4" >
 
-          <div className="card-body">
+          <div className="card-body bg-dark">
 
             <form className="mb-3" onSubmit={(event) => {
                 event.preventDefault()
@@ -34,7 +35,7 @@ class Main extends Component {
                 this.props.stakeTokens(amount)
               }}>
               <div>
-                <label className="float-left"><b>Stake Tokens</b></label>
+                <label className="float-left text-white"><b>Stake Tokens</b></label>
                 <span className="float-right text-muted">
                   Balance: {window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')}
                 </span>
@@ -53,7 +54,7 @@ class Main extends Component {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block btn-lg">STAKE!</button>
+              <button type="submit" className="btn btn-outline-success btn-block btn-lg">STAKE!</button>
             </form>
             <button
               type="submit"

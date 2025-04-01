@@ -116,8 +116,7 @@ class App extends Component {
     }
 
     return (
-      <div>
-        <Navbar account={this.state.account} />
+      <div className=''>
         <div className="container-fluid mt-5">
           <div className="row">
             <main role="main" className="col-lg-12 ml-auto mr-auto" style={{ maxWidth: '600px' }}>
@@ -135,6 +134,7 @@ class App extends Component {
             </main>
           </div>
         </div>
+        <Navbar account={this.state.account} className=""/>
       </div>
     );
   }
