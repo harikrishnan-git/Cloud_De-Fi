@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import dai from '../dai.png'
+import dapp from '../dapp.png'
+
+
+
 
 class Main extends Component {
 
@@ -15,6 +19,12 @@ class Main extends Component {
               <th scope="col">Reward Balance</th>
             </tr>
           </thead>
+          <tbody>
+            <tr><th scope="col"><img src={dai} /></th>
+            <th scope="col"><img src={dapp} alt="Dapp Token" />
+
+            </th></tr>
+          </tbody>
           <tbody>
             <tr>
               <td>{window.web3.utils.fromWei(this.props.stakingBalance, 'Ether')} mDAI</td>

@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import DaiToken from '../abis/DaiToken.json'
 import DappToken from '../abis/DappToken.json'
 import TokenFarm from '../abis/TokenFarm.json'
-import Navbar from './Navbar'
+import Footer from './Footer'
 import Main from './Main'
 import './App.css'
 
@@ -134,7 +134,7 @@ class App extends Component {
             </main>
           </div>
         </div>
-        <Navbar account={this.state.account} className=""/>
+        <Footer account={this.state.account} className=""/>
       </div>
     );
   }
