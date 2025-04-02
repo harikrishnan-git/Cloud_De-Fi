@@ -1,8 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component,useState } from 'react'
 import dai from '../dai.png'
+import stake from 'stake.js'
 
 class Main extends Component {
-
+  constructor(props){
+    super(props);
+    this.state = {
+      page:"stake",
+    };
+  }
   render() {
     return (
       <div id="content" className="mt-3">
@@ -26,48 +32,19 @@ class Main extends Component {
         <div className="card mb-4" >
 
           <div className="card-body bg-dark">
-
-            <form className="mb-3" onSubmit={(event) => {
-                event.preventDefault()
-                let amount
-                amount = this.input.value.toString()
-                amount = window.web3.utils.toWei(amount, 'Ether')
-                this.props.stakeTokens(amount)
-              }}>
-              <div>
-                <label className="float-left text-white"><b>Stake Tokens</b></label>
-                <span className="float-right text-muted">
-                  Balance: {window.web3.utils.fromWei(this.props.daiTokenBalance, 'Ether')}
-                </span>
-              </div>
-              <div className="input-group mb-4">
-                <input
-                  type="text"
-                  ref={(input) => { this.input = input }}
-                  className="form-control form-control-lg"
-                  placeholder="0"
-                  required />
-                <div className="input-group-append">
-                  <div className="input-group-text">
-                    <img src={dai} height='32' alt=""/>
-                    &nbsp;&nbsp;&nbsp; mDAI
-                  </div>
-                </div>
-              </div>
-              <button type="submit" className="btn btn-outline-success btn-block btn-lg">STAKE!</button>
-            </form>
-            <button
-              type="submit"
-              className="btn btn-link btn-block btn-sm"
-              onClick={(event) => {
-                event.preventDefault()
-                this.props.unstakeTokens()
-                console.log("Unstaking completed!");
-                const bonus= this.props.unstakingBonus
-                console.log(bonus)
-              }}>
-                UN-STAKE...
-              </button>
+            <div className='flex'>
+            <button className='btn btn-outline-primary' onClick={(e) =>{
+              this.state.page = "stake"
+            }}>STAKE</button>
+            <button className='btn btn-outline-primary' onClick={(e) =>{
+              this.state.page = "transfer"
+            }}>TRANSFER</button>
+            </div>
+            {if(this.state.page=="stake"){
+              return(<stake />)
+            }else{
+              return(<transfer />)
+            }}
           </div>
         </div>
 
