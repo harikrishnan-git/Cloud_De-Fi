@@ -11,10 +11,11 @@ const Main = ({
   stakeTokens,
   unstakeTokens,
   unstakingBonus,
+  transferToken,
+  page,
+  account,
 }) => {
   const inputRef = useRef(null);
-
-  const [page, setPage] = useState("stake");
 
   const handleStake = (event) => {
     event.preventDefault();
@@ -30,18 +31,14 @@ const Main = ({
     console.log("Bonus:", unstakingBonus);
   };
 
-  const handleTransfer = (event) => {
-    event.preventDefault();
+  const handleTransfer = (reciever, amount) => {
+    amount = window.web3.utils.toWei(amount, "Ether");
+    transferToken(reciever, amount);
   };
 
   return (
-    <div id="content" className="mt-3">
-      <center>
-        <h1 className="text-dark">De-Fi Token Farming</h1>
-      </center>
-      <br />
-      <br />
-      <table className="table table-borderless text-muted text-center">
+    <div id="content" className="mt-2">
+      <table className="table table-borderless text-white text-center">
         <thead>
           <tr>
             <th scope="col">Staking Balance</th>
@@ -66,25 +63,9 @@ const Main = ({
         </tbody>
       </table>
 
-      <div className="card mb-4">
-        <div className="card-body bg-dark">
-          <button
-            className="btn btn-outline-primary"
-            onClick={(e) => {
-              setPage("stake");
-            }}
-          >
-            STAKE
-          </button>
-          <button
-            className="btn btn-outline-primary"
-            onClick={(e) => {
-              setPage("transfer");
-            }}
-          >
-            TRANSFER
-          </button>
-          {page == "stake" ? (
+      <div className="card mb-4 glassmorphism">
+        <div className="card-body rounded border-0 glassmorphism">
+          {page === "stake" ? (
             <Stake
               inputRef={inputRef}
               daiTokenBalance={daiTokenBalance}
@@ -94,12 +75,13 @@ const Main = ({
               stakeTokens={stakeTokens}
               unstakeTokens={unstakeTokens}
               unstakingBonus={unstakingBonus}
+              account={account}
             />
           ) : (
             <Transfer
-              inputRef={inputRef}
               daiTokenBalance={daiTokenBalance}
               handleTransfer={handleTransfer}
+              account={account}
             />
           )}
         </div>
