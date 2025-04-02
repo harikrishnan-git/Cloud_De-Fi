@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import DaiToken from '../abis/DaiToken.json'
 import DappToken from '../abis/DappToken.json'
 import TokenFarm from '../abis/TokenFarm.json'
-import Navbar from './Navbar'
+import Navbar from './Footer'
 import Main from './Main'
 import './App.css'
 
@@ -50,6 +50,7 @@ class App extends Component {
       const tokenFarm = new web3.eth.Contract(TokenFarm.abi, tokenFarmData.address)
       this.setState({ tokenFarm })
       let stakingBalance = await tokenFarm.methods.stakingBalance(this.state.account).call()
+      let unstakingBonus = await tokenFarm.methods.unstakingBonus(this.state.account).call()
       this.setState({ stakingBalance: stakingBalance.toString() })
     } else {
       window.alert('TokenFarm contract not deployed to detected network.')
@@ -80,7 +81,15 @@ class App extends Component {
     })
   }
 
-  unstakeTokens = (amount) => {
+  unstakingBonus = () => {
+    this.setState({ loading: true })
+    const bonus =this.state.tokenFarm.methods.getBonus().call();
+        this.setState({ loading: false });
+        console.log(bonus)
+    alert("Obtained bonus: ",bonus)
+  }
+
+  unstakeTokens =(amount) => {
     this.setState({ loading: true })
     this.state.tokenFarm.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
@@ -97,6 +106,7 @@ class App extends Component {
       daiTokenBalance: '0',
       dappTokenBalance: '0',
       stakingBalance: '0',
+      unstakingBonus: '0',
       loading: true
     }
   }
@@ -112,6 +122,7 @@ class App extends Component {
         stakingBalance={this.state.stakingBalance}
         stakeTokens={this.stakeTokens}
         unstakeTokens={this.unstakeTokens}
+        unstakingBonus={this.state.unstakingBonus}
       />
     }
 

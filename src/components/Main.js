@@ -62,6 +62,9 @@ class Main extends Component {
               onClick={(event) => {
                 event.preventDefault()
                 this.props.unstakeTokens()
+                console.log("Unstaking completed!");
+                const bonus= this.props.unstakingBonus
+                console.log(bonus)
               }}>
                 UN-STAKE...
               </button>

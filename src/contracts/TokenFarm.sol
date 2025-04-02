@@ -14,6 +14,7 @@ contract TokenFarm {
     mapping(address => bool) public hasStaked;
     mapping(address => bool) public isStaking;
     mapping(address => uint) public depositStart;
+    mapping(address => uint) public unstakingBonus;
 
     constructor(DappToken _dappToken, DaiToken _daiToken) public {
         dappToken = _dappToken;
@@ -63,7 +64,7 @@ contract TokenFarm {
         //for min. deposit (0.01 ETH), (etherBalanceOf[msg.sender] / 1e16) = 1 (the same, 31668017/s)
         //for deposit 0.02 ETH, (etherBalanceOf[msg.sender] / 1e16) = 2 (doubled, (2*31668017)/s)
         //uint interestPerSecond = 1/3166801700;
-        uint interest = depositTime/6000;
+        uint interest = depositTime;
 
         // Reset staking balance
         stakingBalance[msg.sender] = 0;
@@ -73,10 +74,16 @@ contract TokenFarm {
         isStaking[msg.sender] = false;
         
         //updating bonus
-        uint bal=dappToken.balanceOf(msg.sender);
-        uint bonus=bal*interest;
-        dappToken.transferFrom(dappToken.getaddress(),msg.sender,bonus);
+        //uint bal=dappToken.balanceOf(msg.sender);
+        uint bonus=balance*interest/100;
+        unstakingBonus[msg.sender]=bonus;
         dappToken.transferFrom(msg.sender,dappToken.getaddress(),balance);
+        dappToken.transferFrom(dappToken.getaddress(),msg.sender,bonus);
+    }
+
+    function getBonus() public view returns (uint)
+    {
+        return unstakingBonus[msg.sender];
     }
 
     // Issuing Tokens
