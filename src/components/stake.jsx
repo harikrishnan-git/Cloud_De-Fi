@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import dai from "../dai.png";
 
 export default function stake({
@@ -10,42 +10,62 @@ export default function stake({
   stakeTokens,
   unstakeTokens,
   unstakingBonus,
+  account,
 }) {
+  const [loading, setLoading] = useState(false);
   return (
-    <div>
-      <form className="mb-3" onSubmit={handleStake}>
-        <div>
-          <label className="float-left text-white">
-            <b>Stake Tokens</b>
-          </label>
-          <span className="float-right text-muted">
-            Balance: {window.web3.utils.fromWei(daiTokenBalance, "Ether")}
+    <div className="">
+      <form className="mb-4" onSubmit={handleStake}>
+        <div className="text-center mb-4">
+          <h2 className="text-white">Stake Tokens</h2>
+          <span className="text-dark">
+            Balance: {window.web3.utils.fromWei(daiTokenBalance, "Ether")} mDAI
+            <br />
+            Account: {account}
           </span>
         </div>
-        <div className="input-group mb-4">
-          <input
-            type="text"
-            ref={inputRef}
-            className="form-control form-control-lg"
-            placeholder="0"
-            required
-          />
-          <div className="input-group-append">
-            <div className="input-group-text">
-              <img src={dai} height="32" alt="DAI Token" />
-              &nbsp;&nbsp;&nbsp; mDAI
+
+        {/* Input Group for Staking Amount */}
+        <div className="form-group mb-4">
+          <label className="text-white" htmlFor="receiverAddress">
+            <b>Staking Amount</b>
+          </label>
+          <div className="input-group">
+            <input
+              type="number"
+              ref={inputRef}
+              className="form-control form-control-lg"
+              placeholder="0"
+              required
+              min="1" // Ensure the amount is at least 1
+            />
+            <div className="input-group-append">
+              <div className="input-group-text">
+                <img src={dai} height="32" alt="DAI Token" />
+                &nbsp; mDAI
+              </div>
             </div>
           </div>
+          <small className="form-text text-muted">
+            Enter the amount of DAI to stake.
+          </small>
         </div>
+
         <button
           type="submit"
-          className="btn btn-outline-success btn-block btn-lg"
+          className="btn btn-primary btn-block btn-lg"
+          disabled={loading} // Disable button if loading
         >
-          STAKE!
+          {loading ? "Staking..." : "STAKE!"}
         </button>
       </form>
-      <button className="btn btn-link btn-block btn-sm" onClick={handleUnstake}>
-        UN-STAKE...
+
+      {/* Unstake Button */}
+      <button
+        className="btn btn-danger btn-block btn-sm mt-2"
+        onClick={handleUnstake}
+      >
+        UN-STAKE
       </button>
     </div>
   );

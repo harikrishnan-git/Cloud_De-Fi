@@ -86,6 +86,13 @@ contract TokenFarm {
         return unstakingBonus[msg.sender];
     }
 
+    function transferToken(address _to,uint _amount) public payable returns(bool success){
+        require(isStaking[_to]==true,"This account is not in this token farm");
+        require(_amount>0,"Transfer money needs to be greater than 0");
+
+        dappToken.transferFrom(msg.sender, _to, _amount);
+    }
+
     // Issuing Tokens
     function issueTokens() public {
         // Only owner can call this function

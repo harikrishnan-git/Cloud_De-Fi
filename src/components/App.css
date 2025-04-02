@@ -1,1 +1,27 @@
-/* Styles go here */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(#8283f5, #997af5) no-repeat;
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.08); /* Semi-transparent white background */
+  border-radius: 15px; /* Rounded corners */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Light border for depth */
+  backdrop-filter: blur(10px); /* Blur effect */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  transition: background 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.glassmorphism:hover {
+  background: rgba(255, 255, 255, 0.15); /* Change background on hover */
+}
