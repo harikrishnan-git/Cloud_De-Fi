@@ -64,7 +64,13 @@ const Main = ({
       </table>
 
       <div className="card mb-4 glassmorphism">
-        <div className="card-body rounded border-0 glassmorphism">
+        <div
+          className="card-body rounded border-0 glassmorphism"
+          style={{
+            background: page === "stake" ? "#2cab73" : "#3498db", // Teal for stake, Blue for transfer
+            transition: "background 0.5s ease",
+          }}
+        >
           {page === "stake" ? (
             <Stake
               inputRef={inputRef}

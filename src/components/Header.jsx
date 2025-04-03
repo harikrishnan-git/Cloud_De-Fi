@@ -12,13 +12,13 @@ const Navbar = ({ setPage }) => {
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
             <button
-              className="btn btn-link text-decoration-none"
+              className="btn btn-outline-success my-2 my-sm-0 mx-2"
               onClick={() => setPage("stake")}
             >
               STAKE
             </button>
             <button
-              className="btn btn-link text-decoration-none"
+              className="btn btn-outline-primary my-2 my-sm-0"
               onClick={() => setPage("transfer")}
             >
               TRANSFER

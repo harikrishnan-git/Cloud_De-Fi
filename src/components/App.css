@@ -10,11 +10,11 @@ body {
 }
 
 body {
-  background: linear-gradient(#8283f5, #997af5) no-repeat;
+  background: #16a085;
 }
 
 .glassmorphism {
-  background: rgba(255, 255, 255, 0.08); /* Semi-transparent white background */
+  background: #1abc9c; /* Semi-transparent white background */
   border-radius: 15px; /* Rounded corners */
   border: 1px solid rgba(255, 255, 255, 0.2); /* Light border for depth */
   backdrop-filter: blur(10px); /* Blur effect */
@@ -23,5 +23,5 @@ body {
 }
 
 .glassmorphism:hover {
-  background: rgba(255, 255, 255, 0.15); /* Change background on hover */
+  background: #0c3c4c; /* Change background on hover */
 }

@@ -143,6 +143,20 @@ const App = () => {
       });
   };
 
+  //new bg
+  useEffect(() => {
+    const pageBackgrounds = {
+      stake: "#1e5631", // Green for staking
+      transfer: "#34495e", // Teal for transfers
+    };
+
+    document.body.style.background = pageBackgrounds[page] || "#16a085"; // Default color
+
+    return () => {
+      document.body.style.background = ""; // Reset when unmounted
+    };
+  }, [page]);
+
   return (
     <div className="h-full">
       <Header setPage={setPage} className="" />
