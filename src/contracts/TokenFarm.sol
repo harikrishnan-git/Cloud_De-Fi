@@ -92,6 +92,7 @@ contract TokenFarm is ReentrancyGuard {
         require(_amount>0,"Transfer money needs to be greater than 0");
 
         dappToken.transferFrom(msg.sender, _to, _amount);
+        return true;
     }
 
     // Issuing Tokens
