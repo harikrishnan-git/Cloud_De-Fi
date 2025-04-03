@@ -7,6 +7,7 @@ import Header from "./Header";
 import Main from "./Main";
 import "./App.css";
 
+
 const App = () => {
   const [account, setAccount] = useState("0x0");
   const [daiToken, setDaiToken] = useState({});
@@ -31,15 +32,24 @@ const App = () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
       await window.ethereum.enable();
-    } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider);
     } else {
-      window.alert("Non-Ethereum browser detected. Consider using MetaMask!");
+      const ALCHEMY_API_KEY = "your-alchemy-api-key";
+      const provider = new Web3.providers.HttpProvider(
+        `https://eth-sepolia.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`
+      );
+      window.web3 = new Web3(provider);
+      console.log("Connected to Alchemy RPC");
     }
   };
 
   const loadBlockchainData = async () => {
-    const web3 = window.web3;
+    const web3 =
+      window.web3 ||
+      new Web3(
+        new Web3.providers.HttpProvider(
+          `https://eth-sepolia.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`
+        )
+      );
     const accounts = await web3.eth.getAccounts();
     setAccount(accounts[0]);
 
