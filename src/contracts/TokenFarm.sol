@@ -1,9 +1,10 @@
 pragma solidity ^0.5.0;
 
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "./DappToken.sol";
 import "./DaiToken.sol";
 
-contract TokenFarm {
+contract TokenFarm is ReentrancyGuard {
     string public name = "Dapp Token Farm";
     address public owner;
     DappToken public dappToken;
