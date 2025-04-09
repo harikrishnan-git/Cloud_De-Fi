@@ -41,7 +41,7 @@ contract TokenFarm {//is ReentrancyGuard {
         // Update staking status
         isStaking[msg.sender] = true;
         hasStaked[msg.sender] = true;
-        depositStart[msg.sender] = depositStart[msg.sender] + block.timestamp;
+        depositStart[msg.sender] = block.timestamp;
 
     }
 
@@ -65,8 +65,17 @@ contract TokenFarm {//is ReentrancyGuard {
         //for min. deposit (0.01 ETH), (etherBalanceOf[msg.sender] / 1e16) = 1 (the same, 31668017/s)
         //for deposit 0.02 ETH, (etherBalanceOf[msg.sender] / 1e16) = 2 (doubled, (2*31668017)/s)
         //uint interestPerSecond = 1/3166801700;
-        uint interest = depositTime;
+        //uint interest = ;
 
+        //updating bonus
+        //uint bal=dappToken.balanceOf(msg.sender);
+        uint bonus=balance*depositTime/100;
+        unstakingBonus[msg.sender]=bonus;
+        if(bonus>balance){
+        dappToken.transferFrom(address(this),msg.sender,bonus-balance);
+        }else {
+            dappToken.transferFrom(msg.sender,address(this),balance-bonus);
+        }
         // Reset staking balance
         stakingBalance[msg.sender] = 0;
         depositStart[msg.sender] = 0;
@@ -74,12 +83,6 @@ contract TokenFarm {//is ReentrancyGuard {
         // Update staking status
         isStaking[msg.sender] = false;
         
-        //updating bonus
-        //uint bal=dappToken.balanceOf(msg.sender);
-        uint bonus=balance*interest/100;
-        unstakingBonus[msg.sender]=bonus;
-        dappToken.transferFrom(msg.sender,dappToken.getaddress(),balance);
-        dappToken.transferFrom(dappToken.getaddress(),msg.sender,bonus);
     }
 
     function getBonus() public view returns (uint)
