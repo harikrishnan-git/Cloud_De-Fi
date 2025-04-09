@@ -13,8 +13,8 @@ module.exports = {
     sepolia: {
       provider: () =>
         new HDWalletProvider({
-          privateKeys: [process.env.PRIVATE_KEY],
-          providerOrUrl: `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
+          privateKeys: [process.env.PRIVATEKEY],
+          providerOrUrl: `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMYAPIKEY}`,
         }),
       network_id: 11155111,
       gas: 4000000,
